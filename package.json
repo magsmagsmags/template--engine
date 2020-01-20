@@ -1,7 +1,7 @@
 {
   "name": "template--engine",
   "version": "1.0.0",
-  "description": "",
+  "description": "OOP and testing for week 10 homework",
   "main": "app.js",
   "directories": {
     "lib": "lib",
@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/magsmagsmags/template--engine/issues"
   },
-  "homepage": "https://github.com/magsmagsmags/template--engine#readme"
+  "homepage": "https://github.com/magsmagsmags/template--engine#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "inquirer": "^7.0.3"
+  }
 }
