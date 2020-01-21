@@ -3,9 +3,11 @@ const fs = require("fs");
 // const mustache = require('mustache');
 
 // const Employee = require("./lib/employee");
-// const Engineer = require("./lib/engineer");
-// const Intern = require("./lib/intern");
-// const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
+const Manager = require("./lib/manager");
+
+const generate = require("./lib/generateHTML");
 
 // This array fills in with employee data.
 // const teamMembers = [];
