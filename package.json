@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/magsmagsmags/template--engine#readme",
   "dependencies": {
     "fs": "0.0.1-security",
-    "inquirer": "^7.0.3"
+    "inquirer": "^7.0.3",
+    "jest": "^24.9.0"
   }
 }
