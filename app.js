@@ -62,20 +62,20 @@ function bodyInput() {
         // * name
         {
             type: "input",
-            message: "What is the team manager's name?",
-            name: "managerName"
+            message: "What is the next employee's name?",
+            name: "name"
         },
         // * id
         {
             type: "input",
-            message: "What is the team manager's ID?",
-            name: "managerId"
+            message: "What is this employee's ID?",
+            name: "id"
         },
         // title
         {
             type: "input",
-            message: "What is the title of this manager?",
-            name: "managerTitle"
+            message: "What is the title of this employee?",
+            name: "title"
         },
         // email
         {

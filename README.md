@@ -21,8 +21,17 @@ The project must generate a `team.html` page in the `output` directory, that dis
   * ID
   * Role-specific property (School, link to GitHub profile, or office number)
 
-# Technology
-* HTML
-* CSS
-* Node.js
-* NPM Inquirer
+# Screenshots
+* ![Screenshot](/images/screenshot_qs.png)
+* ![Screenshot](/images/screenshot_tests.png)
+
+# Contribute
+Please reach out to me via Slack (Mags Kiefer) or at sheakiefer@gmail.com for code suggestions, critiques, feedback, or offers to collaborate. 
+
+# Credits
+
+* Brittany Taylor
+* Israel Medina
+* Eric Scott
+
+--------------------------------
