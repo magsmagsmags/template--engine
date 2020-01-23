@@ -10,10 +10,55 @@ const Manager = require("./lib/manager");
 const generate = require("./lib/generateHTML");
 
 // This array fills in with employee data.
-// const teamMembers = [];
+const teamMembers = [];
 
-async function userInput(data) {
-    inquirer.prompt(data)[
+function mInput() {
+    inquirer.prompt([
+        // * name
+        {
+            type: "input",
+            message: "What is the team manager's name?",
+            name: "managerName"
+        },
+        // * id
+        {
+            type: "input",
+            message: "What is the team manager's ID?",
+            name: "managerId"
+        },
+        // title
+        {
+            type: "input",
+            message: "What is the title of this manager?",
+            name: "managerTitle"
+        },
+        // email
+        {
+            type: "input",
+            message: "What is the team manager's email?",
+            name: "managerEmail"
+        },
+
+        //conditional question for manager
+        {
+            type: "input",
+            message: "What is the manager's office number?",
+            name: "managerOffice",
+
+        },
+
+    ]).then(mAnswers => {
+        manager = new Manager(mAnswers.managerName, mAnswers.managerID, mAnswers.managerEmail, mAnswers.officeNumber);
+        console.log("Manager info logged.")
+        bodyInput();
+    });
+};
+
+// // add mInput / mdata to manager const and then team array
+
+
+function bodyInput() {
+    inquirer.prompt([
         // * name
         {
             type: "input",
@@ -40,58 +85,59 @@ async function userInput(data) {
         },
         // role
         {
-            type: "rawList",
-            message: "What is the role of this employee?",
+            type: "rawlist",
             name: "role",
-            choices: ["Manager", "Intern", "Engineer"]
+            message: "What is the role of this employee?",
+            choices: ["Intern",
+                "Engineer"
+            ]
         },
 
-        //conditional questions for engineer, manager, intern
-        {
-            type: "input",
-            message: "What is the manager's office number?",
-            name: "office",
-
-        },
+        //conditional questions for engineer, intern
 
         {
             type: "input",
             message: "What school does this intern attend?",
             name: "school",
-            when: (data) => data.role === "Intern"
+            when: (userInput) => userInput.role === "Intern"
         },
 
         {
             type: "input",
             message: "What is the engineer's github username?",
             name: "github",
-            when: (data) => data.role === "Engineer"
+            when: (userInput) => userInput.role === "Engineer"
         },
 
         {
-            type: "rawList",
+            type: "rawlist",
             message: "Would you like to add another team member?",
             name: "addAnother",
-            choices: ["yes", "no"]
+            choices: ["yes",
+                "no"
+            ]
         }
-    ]
+    ]).then(eAnswers => {
+
+        if (eAnswers.addAnother === "yes") {
+            // add bdata to new Employee and into team array
+            bodyInput();
+        } else {
+            // function addCard();
+            console.log("add card");
+        }
+
+    });
+
+    // fs.writeFile("team.html", generateHTML, function (err) {
+    //     console.log(err);
+    //     if (err) return console.log(err);
+    //     console.log(response);
+    // });
+
 };
 
-userInput().then(); {
-
-    if (data.addAnother === "yes") {
-        userInput();
-    };
-
-    if (data.addAnother === "no") {
-        fs.writeFile("team.html", generateHTML, function (err) {
-            console.log(err);
-            if (err) return console.log(err);
-            console.log(response);
-        });
-    }
-};
-
+mInput();
 
 
 
@@ -103,4 +149,4 @@ userInput().then(); {
 //     title: "My New Post",
 //     body: "This is my first post!"
 // };
-// var html = template(context);
+// var html = template(context)
