@@ -2,15 +2,20 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 // const mustache = require('mustache');
 
-// const Employee = require("./lib/employee");
+const Employee = require("./lib/employee");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 const Manager = require("./lib/manager");
 
-const generate = require("./lib/generateHTML");
+var main = fs.readFileSync('./templates/main.html', 'utf8');
+
+// const generate = require("./lib/generateHTML");
 //////////////////////////////////////////////////////
 // This array fills in with team data.
-const team = [];
+const mgrTeam = [];
+const intTeam = [];
+const engTeam = [];
+
 let manager;
 //////////////////////////////////////////////////////
 function managerInput() {
@@ -53,7 +58,7 @@ function managerInput() {
         //////////////////////////////////////////////////////
     ]).then(mAnswers => {
         manager = new Manager(mAnswers.managerName, mAnswers.managerID, mAnswers.managerEmail, mAnswers.officeNumber);
-        team.push(manager);
+        mgrTeam.push(manager);
         console.log("Manager info logged. Now let's get info about the other employees. ")
         empInput();
     });
@@ -128,52 +133,65 @@ function empInput() {
             ]
         }
     ]).then(eAnswers => {
-        //////////////////////////////////////////////////////
-        // if 'yes' to 'addAnother':
-        // add employee, let = either intern or engineer depending on answer to 'role'
-        // then re-run empInput function
-        //////////////////////////////////////////////////////
-        if (eAnswers.addAnother === "yes") {
-            if (eAnswers.role === "Intern") {
-                team.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
-            } else if (eAnswers.role === "Engineer") {
-                team.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
-            }
-            empInput();
             //////////////////////////////////////////////////////
-            // if 'no' to 'addAnother':
+            // if 'yes' to 'addAnother':
             // add employee, let = either intern or engineer depending on answer to 'role'
-            // then create cards, first manager then both employee types
+            // then re-run empInput function
             //////////////////////////////////////////////////////
-        } else {
-            //////////////////////////////////////////////////////
-            // render cards via templates
-            //manager or basic employee
-            // and readfileSync to .templates/main.html
+            if (eAnswers.addAnother === "yes") {
+                if (eAnswers.role === "Intern") {
+                    intTeam.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                } else if (eAnswers.role === "Engineer") {
+                    engTeam.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                } else {
+                    console.log("employee answer error -y");
+                }
+                empInput();
+                //////////////////////////////////////////////////////
+                // if 'no' to 'addAnother':
+                // add employee, let = either intern or engineer depending on answer to 'role'
+                // then create cards, first manager then both employee types
+                //////////////////////////////////////////////////////
+            } else {
+                //////////////////////////////////////////////////////
+                // render cards via templates
+                //manager or basic employee
+                // and readfileSync to .templates/main.html
 
-            if (eAnswers.role === "Intern") {
-                team.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
-            } else if (eAnswers.role === "Engineer") {
-                team.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                if (eAnswers.role === "Intern") {
+                    intTeam.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                    // createProfile();
+                    console.log("We are compiling your team profile!");
+                }
+                if (eAnswers.role === "Engineer") {
+                    engTeam.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                    // createProfile();
+                    console.log("We are compiling your team profile!");
+                } else {
+                    console.log("employee answer error -n");
+
+                    // console.log("We are compiling your team profile!");
+                    createProfile();
+                }
+                // createProfile();
             }
-            createProfile();
-            console.log("We are compiling your team profile!");
-
         }
 
-    });
+    )
+};
 
-    function createProfile() {
+function createProfile() {
 
-        //////////////////////////////////////////////////////
-        // create profile
-        //////////////////////////////////////////////////////
+    employee = new Employee(employee.name, employee.id, employee.email);
 
-        var main = fs.readFileSync('./templates/main.html', 'utf8');
+    //////////////////////////////////////////////////////
+    // create profile
+    //////////////////////////////////////////////////////
 
-        //////////////////////////////////////////////////////
-        // create manager card
-        //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
+    // create manager card
+    //////////////////////////////////////////////////////
+    if (employee.getRole() === "Manager") {
 
         const mgrCard = fs.readFileSync('./templates/manager.html');
         mgrCard = mgrCard.replace('{{name}}', manager.getName());
@@ -182,37 +200,63 @@ function empInput() {
         mgrCard = mgrCard.replace('{{email}}', manager.getEmail());
         mgrCard = mgrCard.replace('{{officeNumber}}', manager.getOfficeNumber());
 
-        main = main.replace('{{managerCard}}', mgrCard);
+        let mcard = mgrCard;
 
-
-
-
-
-
-
+        main = main.replace('{{managerCards}}', mcard);
 
 
         //////////////////////////////////////////////////////
         // create employee cards
         //////////////////////////////////////////////////////
 
+    } else if (employee.getRole() === "Engineer") {
+        const engCard = fs.readFileSync('./templates/Intern.html');
+        engCard = engCard.replace('{{name}}', engineer.getName());
+        engCard = engCard.replace('{{id}}', engineer.getId());
+        engCard = engCard.replace('{{role}}', engineer.getRole());
+        engCard = engCard.replace('{{email}}', engineer.getEmail());
+        engCard = engCard.replace('{{github}}', engineer.getGithub());
 
+        let ecard = engCard;
 
+        main = main.append(ecard); ///???
+        function addCode() {
+            document.getElementById("engineerContainer").innerHTML +=
+                ecard;
+        }
+        addCode();
 
+    } else if (employee.getRole() === "Intern") {
 
+        const intCard = fs.readFileSync('./templates/Intern.html');
+        intCard = intCard.replace('{{name}}', intern.getName());
+        intCard = intCard.replace('{{id}}', intern.getId());
+        intCard = intCard.replace('{{role}}', intern.getRole());
+        intCard = intCard.replace('{{email}}', intern.getEmail());
+        intCard = intCard.replace('{{school}}', intern.getSchool());
 
+        for (var i = 0; i < intTeam.length; i++) {
+            var intEmployees = intTeam[i];
+            // card adds then adds to int array
+            intCard += intEmployees; //////////////
+
+            main = main.replace('{{internCards}}', intCard); ///???
+
+        }
+    } else {
+        console.log("create profile error");
     }
-
-
-
-
 };
 
+fs.writeFileSync('./output/team.html', main);
 
 
 
 
-mInput();
+
+
+
+managerInput();
 
 
 
