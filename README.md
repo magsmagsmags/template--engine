@@ -33,5 +33,8 @@ Please reach out to me via Slack (Mags Kiefer) or at sheakiefer@gmail.com for co
 * Brittany Taylor
 * Israel Medina
 * Eric Scott
+*  
+  1. https://www.youtube.com/watch?v=p5eCYKiZN-4
+  1. https://www.youtube.com/watch?v=1srD3Mdvf50
 
 --------------------------------

@@ -17,32 +17,60 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 
+<!-- ////////////////////////////////////////////////////// -->
+<!-- // begin body -->
+
 <body>
+
+    <!-- ////////////////////////////////////////////////////// -->
+    <!-- // navbar -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="main.html">
+            <h3>Your Development Team</h3>
+        </a>
+
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="main.html">Refresh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- ////////////////////////////////////////////////////// -->
+    <!-- // manager card -->
+
+
+    <!-- div with id for manager card specifically needed? -->
     {{managerCard}}
-    {{employeeCards}}
 
-    <body>
+    <!-- ////////////////////////////////////////////////////// -->
+    <!-- // employee cards -->
 
-        <!-- Static navbar -->
+    <div class="container" id="cardsContainer">
+        {{cards}}
+    </div>
+    <!-- cardContainer //div -->
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="main.html">
-                <h3>Your Development Team</h3>
-            </a>
 
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="main.html">Refresh</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
-                </li>
-            </ul>
 
-        </nav>
+    <!-- ////////////////////////////////////////////////////// -->
+    <!-- // footer -->
 
-    </body>
+    <footer>
+        Team Profile Generator brought to you by <a id="footerName" href="https://github.com/magsmagsmags">Mags
+            Kiefer</a>.
+        <br>Copyright &copy; 2020
+    </footer>
+
+
+</body>
 
 </html>
