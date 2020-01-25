@@ -12,9 +12,12 @@ var main = fs.readFileSync('./templates/main.html', 'utf8');
 // const generate = require("./lib/generateHTML");
 //////////////////////////////////////////////////////
 // This array fills in with team data.
-const mgrTeam = [];
-const intTeam = [];
-const engTeam = [];
+const team = [];
+// const mgrTeam = [];
+// const intTeam = [];
+// const engTeam = [];
+// switch to single employee array
+
 
 let manager;
 //////////////////////////////////////////////////////
@@ -58,15 +61,19 @@ function managerInput() {
         //////////////////////////////////////////////////////
     ]).then(mAnswers => {
         manager = new Manager(mAnswers.managerName, mAnswers.managerID, mAnswers.managerEmail, mAnswers.officeNumber);
-        mgrTeam.push(manager);
+        team.push(manager);
         console.log("Manager info logged. Now let's get info about the other employees. ")
+        console.log("Manager: " + manager);
         empInput();
     });
 };
 
 
-// // add mInput / mdata to manager const and then team array
-
+//////////////////////////////////////////////////////
+// employee info function runs
+// it is called in managerInput() function
+// after the new manager const is added to the team array
+//////////////////////////////////////////////////////
 
 function empInput() {
     inquirer.prompt([
@@ -140,9 +147,10 @@ function empInput() {
             //////////////////////////////////////////////////////
             if (eAnswers.addAnother === "yes") {
                 if (eAnswers.role === "Intern") {
-                    intTeam.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                    team.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                    console.log("Intern " + eAnswers)
                 } else if (eAnswers.role === "Engineer") {
-                    engTeam.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+                    team.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
                 } else {
                     console.log("employee answer error -y");
                 }
@@ -159,104 +167,127 @@ function empInput() {
                 // and readfileSync to .templates/main.html
 
                 if (eAnswers.role === "Intern") {
-                    intTeam.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
-                    // createProfile();
+                    team.push(new Intern(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+
                     console.log("We are compiling your team profile!");
                 }
                 if (eAnswers.role === "Engineer") {
-                    engTeam.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
-                    // createProfile();
+                    team.push(new Engineer(eAnswers.name, eAnswers.id, eAnswers.title, eAnswers.email, eAnswers.role));
+
                     console.log("We are compiling your team profile!");
                 } else {
                     console.log("employee answer error -n");
 
-                    // console.log("We are compiling your team profile!");
-                    createProfile();
+
+
                 }
-                // createProfile();
+
             }
+            //////////////////////////////////////////////////////
+            // at end of emInput() function
+            // we call the createProfile() function
+            // the function code is the next section
+            //////////////////////////////////////////////////////
+            createProfile();
         }
 
     )
 };
 
+
+// //////////////////////////////////////////////////////
+// // create profile
+// //////////////////////////////////////////////////////
 function createProfile() {
 
-    employee = new Employee(employee.name, employee.id, employee.email);
-
-    //////////////////////////////////////////////////////
-    // create profile
-    //////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////
-    // create manager card
-    //////////////////////////////////////////////////////
-    if (employee.getRole() === "Manager") {
-
-        const mgrCard = fs.readFileSync('./templates/manager.html');
-        mgrCard = mgrCard.replace('{{name}}', manager.getName());
-        mgrCard = mgrCard.replace('{{id}}', manager.getId());
-        mgrCard = mgrCard.replace('{{role}}', manager.getRole());
-        mgrCard = mgrCard.replace('{{email}}', manager.getEmail());
-        mgrCard = mgrCard.replace('{{officeNumber}}', manager.getOfficeNumber());
-
-        let mcard = mgrCard;
-
-        main = main.replace('{{managerCards}}', mcard);
+    console.log("create profile function runs");
+    console.log(team[0]);
+    console.log("index 1 " + team[1]);
+    console.log("index 2 " + team[2]);
 
 
-        //////////////////////////////////////////////////////
-        // create employee cards
-        //////////////////////////////////////////////////////
+    // employee = new Employee(employee.name, employee.id, employee.email);
 
-    } else if (employee.getRole() === "Engineer") {
-        const engCard = fs.readFileSync('./templates/Intern.html');
-        engCard = engCard.replace('{{name}}', engineer.getName());
-        engCard = engCard.replace('{{id}}', engineer.getId());
-        engCard = engCard.replace('{{role}}', engineer.getRole());
-        engCard = engCard.replace('{{email}}', engineer.getEmail());
-        engCard = engCard.replace('{{github}}', engineer.getGithub());
+    // //////////////////////////////////////////////////////
+    // // create manager card
+    // //////////////////////////////////////////////////////
+    // if (employee.getRole() === "Manager") {
 
-        let ecard = engCard;
+    //     const mgrCard = fs.readFileSync('./templates/manager.html');
+    //     mgrCard = mgrCard.replace('{{name}}', manager.getName());
+    //     mgrCard = mgrCard.replace('{{id}}', manager.getId());
+    //     mgrCard = mgrCard.replace('{{role}}', manager.getRole());
+    //     mgrCard = mgrCard.replace('{{email}}', manager.getEmail());
+    //     mgrCard = mgrCard.replace('{{officeNumber}}', manager.getOfficeNumber());
 
-        main = main.append(ecard); ///???
-        function addCode() {
-            document.getElementById("engineerContainer").innerHTML +=
-                ecard;
-        }
-        addCode();
+    //     let mcard = mgrCard;
 
-    } else if (employee.getRole() === "Intern") {
+    //     main = main.replace('{{managerCards}}', mcard);
 
-        const intCard = fs.readFileSync('./templates/Intern.html');
-        intCard = intCard.replace('{{name}}', intern.getName());
-        intCard = intCard.replace('{{id}}', intern.getId());
-        intCard = intCard.replace('{{role}}', intern.getRole());
-        intCard = intCard.replace('{{email}}', intern.getEmail());
-        intCard = intCard.replace('{{school}}', intern.getSchool());
 
-        for (var i = 0; i < intTeam.length; i++) {
-            var intEmployees = intTeam[i];
-            // card adds then adds to int array
-            intCard += intEmployees; //////////////
+    //     //////////////////////////////////////////////////////
+    //     // create employee cards
+    //     //////////////////////////////////////////////////////
 
-            main = main.replace('{{internCards}}', intCard); ///???
+    // } else if (employee.getRole() === "Engineer") {
+    //     const engCard = fs.readFileSync('./templates/Intern.html');
+    //     engCard = engCard.replace('{{name}}', engineer.getName());
+    //     engCard = engCard.replace('{{id}}', engineer.getId());
+    //     engCard = engCard.replace('{{role}}', engineer.getRole());
+    //     engCard = engCard.replace('{{email}}', engineer.getEmail());
+    //     engCard = engCard.replace('{{github}}', engineer.getGithub());
 
-        }
-    } else {
-        console.log("create profile error");
-    }
+    //     let ecard = engCard;
+
+    //     main = main.append(ecard); ///???
+    //     function addCode() {
+    //         document.getElementById("engineerContainer").innerHTML +=
+    //             ecard;
+    //     }
+    //     addCode();
+
+    // } else if (employee.getRole() === "Intern") {
+
+    //     const intCard = fs.readFileSync('./templates/Intern.html');
+    //     intCard = intCard.replace('{{name}}', intern.getName());
+    //     intCard = intCard.replace('{{id}}', intern.getId());
+    //     intCard = intCard.replace('{{role}}', intern.getRole());
+    //     intCard = intCard.replace('{{email}}', intern.getEmail());
+    //     intCard = intCard.replace('{{school}}', intern.getSchool());
+
+    //     for (var i = 0; i < team.length; i++) {
+    //         var intEmployees = team[i];
+    //         // card adds then adds to int array
+    //         intCard += intEmployees; //////////////
+
+    //         main = main.replace('{{internCards}}', intCard); ///???
+
+    //     }
+    // } else {
+    //     console.log("create profile error");
+
+    // }
+
+    fs.writeFileSync('./output/team.html', main);
+    console.log("team output file written");
+
 };
 
-fs.writeFileSync('./output/team.html', main);
+// fs.writeFileSync('./output/team.html', main);
 
 
 
 
 
-
+///////////////////////////////////////////////////////////////////
+// after all other function descriptions and calls are written, 
+// we call the managerInput() function
+// it is the first function and this call will kick off everything
+//////////////////////////////////////////////////////////////////
 
 managerInput();
+
+
 
 
 
