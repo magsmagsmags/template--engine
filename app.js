@@ -277,16 +277,16 @@ function empInput() {
 
 
 
-
-            //////////////////////////////////////////////////////
-            // at end of emInput() function
-            // we call the createProfile() function
-            // the function code is the next section
-            //////////////////////////////////////////////////////
-            createProfile();
         }
 
     )
+
+    //////////////////////////////////////////////////////
+    // at end of emInput() function
+    // we call the createProfile() function
+    // the function code is the next section
+    //////////////////////////////////////////////////////
+    createProfile();
 };
 
 
@@ -297,14 +297,12 @@ function createProfile() {
 
     console.log("create profile function runs");
     console.log(team[0]);
-    console.log("index 1 " + team[1]);
-    console.log("index 2 " + team[2]);
 
-
-    fs.writeFileSync('./output/team.html', main);
     console.log("team output file written");
 
 };
+
+fs.writeFileSync('./output/team.html', main);
 
 
 
